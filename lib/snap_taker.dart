@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:snap_app/gallery.dart';
 
 class SnapTaker extends StatefulWidget {
   final List<CameraDescription> camera;
@@ -55,9 +56,9 @@ class _SnapTakerState extends State<SnapTaker> {
 
     final file = await saveImage(image);
 
-    if (file != null) {
-      print("file not null here");
-    }
+    // if (file != null) {
+    //   print("file not null here");
+    // }
     setState(() {
       imageFileList.add(file);
     });
@@ -98,15 +99,52 @@ class _SnapTakerState extends State<SnapTaker> {
       return Container();
     }
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: takePicture,
-        backgroundColor: Colors.white38,
-        shape: const CircleBorder(),
-        child: const Icon(
-          Icons.camera_alt,
-          size: 47,
-          color: Colors.black,
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: takePicture,
+            backgroundColor: Colors.white38,
+            shape: const CircleBorder(),
+            child: const Icon(
+              Icons.camera_alt,
+              size: 47,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(
+            width: 90,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) {
+                    return Gallery(imageFileList: imageFileList);
+                  },
+                ),
+              );
+            },
+            child: Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.transparent,
+                border: Border.all(color: Colors.lightBlue, width: .4),
+              ),
+              child: const Icon(
+                Icons.photo_library_rounded,
+                size: 40,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 30,
+          )
+          // IconButton(onPressed: () {}, icon: const Icon(Icons.browse_gallery),)
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
@@ -134,7 +172,7 @@ class _SnapTakerState extends State<SnapTaker> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: 80),
+                    padding: const EdgeInsets.only(bottom: 80),
                     child: SizedBox(
                       height: 100,
                       child: ListView.builder(

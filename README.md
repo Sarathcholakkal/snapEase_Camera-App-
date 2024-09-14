@@ -26,6 +26,8 @@ Version 2 will release with features: flash,front and back camera switching ,spe
   <img width="320" height="760" src="https://github.com/user-attachments/assets/ddc1a245-3e70-46e1-892f-1649e66ecc50" >
   <img width="320" height="760" src="https://github.com/user-attachments/assets/a77b4788-aaf8-480e-9854-ce82e8eee5c7" >
 
+## Live  working video:  https://youtu.be/ZbPTwdKskHc
+
 
 
 

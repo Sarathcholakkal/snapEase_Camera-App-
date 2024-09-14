@@ -1,19 +1,20 @@
-# SnapEase - Flutter Camera App
+# SnapTaker - Flutter Camera App
 
-Features:
+SnapTaker is a Flutter application that enables users to capture high-resolution photos using their device's camera. It provides a user-friendly interface to take pictures, save them to the device's internal storage, and view a gallery of captured images. The app ensures image persistence across restarts using `shared_preferences`.
 
- Capture high-resolution photos using the device's camera.
- Save images to the device's internal storage.
- View a gallery of captured images within the app.
- Image persistence using shared_preferences to reload images on app restart.
+## Features
 
-Packages used:
- camera: ^0.11.0+2
- google_fonts: ^6.2.1
- path_provider: ^2.1.4
- shared_preferences: ^2.3.2
+- Capture high-resolution photos using the device's camera.
+- Save images to the device's internal storage.
+- View a gallery of captured images within the app.
+- Image persistence using `shared_preferences` to reload images on app restart.
 
+## Packages Used
 
+- `camera: ^0.11.0+2`
+- `google_fonts: ^6.2.1`
+- `path_provider: ^2.1.4`
+- `shared_preferences: ^2.3.2`
 
 
 

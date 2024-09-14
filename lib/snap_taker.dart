@@ -100,21 +100,41 @@ class _SnapTakerState extends State<SnapTaker> {
     }
     return Scaffold(
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          InkWell(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.transparent,
+                border: Border.all(color: const Color(0xFF9292FD), width: .4),
+              ),
+              child: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+                size: 40,
+                color: Color(0xFF6C63FF),
+              ),
+            ),
+          ),
+          // SizedBox()
           FloatingActionButton(
             onPressed: takePicture,
-            backgroundColor: Colors.white38,
+            backgroundColor: const Color(0xFF9292FD),
             shape: const CircleBorder(),
             child: const Icon(
               Icons.camera_alt,
               size: 47,
-              color: Colors.black,
+              color: Color(0xFF6C63FF),
             ),
           ),
-          const SizedBox(
-            width: 90,
-          ),
+          // const SizedBox(
+          //   width: 90,
+          // ),
           InkWell(
             onTap: () {
               Navigator.of(context).push(
@@ -131,19 +151,18 @@ class _SnapTakerState extends State<SnapTaker> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.transparent,
-                border: Border.all(color: Colors.lightBlue, width: .4),
+                border: Border.all(color: const Color(0xFF9292FD), width: .4),
               ),
               child: const Icon(
                 Icons.photo_library_rounded,
                 size: 40,
-                color: Colors.white,
+                color: Color(0xFF6C63FF),
               ),
             ),
           ),
-          const SizedBox(
-            width: 30,
-          )
-          // IconButton(onPressed: () {}, icon: const Icon(Icons.browse_gallery),)
+          // const SizedBox(
+          //   width: 30,
+          // )
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

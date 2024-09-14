@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:snap_app/snap_taker.dart';
+import 'package:snap_app/welcome.dart';
 
 late List<CameraDescription> cameras;
 
@@ -18,11 +18,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: SnapTaker(camera: cameras));
+        home: WelcomeScreen(camera: cameras)
+
+        // SnapTaker(camera: cameras),
+        );
   }
 }

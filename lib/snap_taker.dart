@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:external_path/external_path.dart';
+
 import 'package:flutter/material.dart';
 import 'package:snap_app/gallery.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SnapTaker extends StatefulWidget {
   final List<CameraDescription> camera;
@@ -45,52 +47,67 @@ class _SnapTakerState extends State<SnapTaker> {
 
   //?===============take picture =======================================
 
+  //!===================take picture=============================
   void takePicture() async {
-    XFile? image;
     if (cameracontroller.value.isTakingPicture ||
         !cameracontroller.value.isInitialized) {
       return;
     }
 
-    image = await cameracontroller.takePicture();
+    try {
+      XFile image = await cameracontroller.takePicture();
+      final file = await saveImage(image);
 
-    final file = await saveImage(image);
-
-    // if (file != null) {
-    //   print("file not null here");
-    // }
-    setState(() {
-      imageFileList.add(file);
-    });
-
-    // MediaScanner.loadMedia(path: file.path);
+      setState(() {
+        imageFileList.add(file);
+      });
+    } catch (e) {
+      print('Error taking picture: $e');
+    }
   }
 
-  //============save image===================================
+  //!=============save image using path provider==============
 
   Future<File> saveImage(XFile image) async {
-    final downloadPath = await ExternalPath.getExternalStoragePublicDirectory(
-        ExternalPath.DIRECTORY_DOWNLOADS);
-    final fileName = "${DateTime.now().millisecondsSinceEpoch}.png";
-    final file = File('$downloadPath/$fileName');
+    // Get the directory to save the image
+    final directory = await getApplicationDocumentsDirectory();
+    final imagePath =
+        '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.png';
+    final file = File(imagePath);
 
     try {
+      // Write the image to the specified file path
       await file.writeAsBytes(await image.readAsBytes());
-    } catch (_) {}
+
+      // Save the image path to shared_preferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String> imagePaths = prefs.getStringList('imagePaths') ?? [];
+      imagePaths.add(imagePath);
+      await prefs.setStringList('imagePaths', imagePaths);
+    } catch (e) {
+      print('Error saving image: $e');
+    }
+
     return file;
   }
 
+//!===================================================
+  void loadSavedImages() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> imagePaths = prefs.getStringList('imagePaths') ?? [];
+
+    setState(() {
+      imageFileList = imagePaths.map((path) => File(path)).toList();
+    });
+  }
+
+//!===================================
   @override
   void initState() {
     super.initState();
     startCamera(0);
+    loadSavedImages();
   }
-
-  // @override
-  // void dispose() {
-  //   cameraValue.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -160,9 +177,6 @@ class _SnapTakerState extends State<SnapTaker> {
               ),
             ),
           ),
-          // const SizedBox(
-          //   width: 30,
-          // )
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
